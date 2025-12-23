@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="TextAdventureGame/TextAdventureGame.vcxproj" Id="f385aaed-e6d9-402f-9b5a-0f332d670f9c" />
+</Solution>
