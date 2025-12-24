@@ -1,97 +1,84 @@
 ﻿#include "Location.h"
+#include "Item.h"
 #include <iostream>
 
 int main() {
-    //Creating Locations
-    Location downtown("Neo-Tokyo Downtown",
-        "Neon signs flicker in the rain. Corporate towers\n"
-        "loom overhead, their glass facades reflecting\n"
-        "a thousand advertisements.");
+    std::cout << "=== Testing Dynamic Arrays for Items ===\n\n";
 
-    Location alley("Dark Alley",
-        "A narrow passage between buildings. The smell\n"
-        "of ozone and synthetic food fills the air.");
+    //Create a location
+    std::cout << "--- Creating Location ---\n";
+    Location* alley = new Location(
+        "Dark Alley",
+        "A shadowy corridor between neon-lit buildings.\n"
+        "The perfect place for shady deals."
+    );
 
-    Location market("Black Market",
-        "Holographic vendors hawk illegal cybernetics.\n"
-        "Everything here is untraceable... for a price.");
+    //Create some cyberpunk items
+    std::cout << "\n--- Creating Items ---\n";
+    Item* dataChip = new Item("Encrypted Data Chip", "Corporate secrets worth millions");
+    Item* stimpack = new Item("Neural Stimpack", "Boosts reaction time temporarily");
+    Item* credStick = new Item("Credstick", "Contains 500 credits");
+    Item* hacker = new Item("Hacking Tool", "Military-grade ICE breaker");
+    Item* implant = new Item("Cybernetic Implant", "Optic enhancement module");
 
-    // Printing memory addresses
-    std::cout << "\nMemory addresses:\n";
-    std::cout << "  Downtown is at: " << &downtown << "\n";
-    std::cout << "  Alley is at:    " << &alley << "\n";
-    std::cout << "  Market is at:   " << &market << "\n\n";
+    //Add items to location
+    std::cout << "\n--- Adding Items to Location ---\n";
+    alley->addItem(dataChip);
+    alley->addItem(stimpack);
+    alley->addItem(credStick);
 
-    //Connecting Locations with Pointers
-    std::cout << "--- Connecting locations ---\n";
+    //Display location (shows items)
+    std::cout << "\n--- Displaying Location ---\n";
+    alley->display();
 
-    // Downtown has exits to the east (alley) and north (market)
-    downtown.setEastExit(&alley);
-    downtown.setNorthExit(&market);  
-    std::cout << "Downtown connected to Alley (east) and Market (north)\n";
+    //Test array resizing by adding more items
+    std::cout << "\n--- Testing Array Resize (capacity was 4) ---\n";
+    alley->addItem(hacker);    // 4th item 
+    alley->addItem(implant);   // 5th item - should trigger resize
 
-    // Alley has an exit back west to downtown
-    alley.setWestExit(&downtown);
-    std::cout << "Alley connected to Downtown (west)\n";
+    alley->display();
 
-    // Market has an exit back south to downtown
-    market.setSouthExit(&downtown);
-    std::cout << "Market connected to Downtown (south)\n\n";
-
-    //Navigation Testing
-    std::cout << "=== Navigation Test ===\n";
-
-    // Start at downtown
-    Location* currentLocation = &downtown;  // Store pointer to downtown
-    std::cout << "\n>> Starting location:\n";
-    currentLocation->display();
-
-     // Try to go north
-    std::cout << "\n>> Attempting to go NORTH...\n";
-    if (currentLocation->hasNorthExit()) {
-        std::cout << "Exit exists! Moving north...\n";
-        currentLocation = currentLocation->getNorthExit();  // Follow the pointer!
-        currentLocation->display();
-    }
-    else {
-        std::cout << "✗ No exit in that direction!\n";
+    //Remove an item
+    std::cout << "\n--- Removing Item at Index 1 ---\n";
+    Item* removed = alley->removeItem(1);
+    if (removed != nullptr) {
+        std::cout << "Removed: ";
+        removed->display();
     }
 
-    // Try to go east (should fail - we're at market)
-    std::cout << "\n>> Attempting to go EAST...\n";
-    if (currentLocation->hasEastExit()) {
-        std::cout << "Exit exists! Moving east...\n";
-        currentLocation = currentLocation->getEastExit();
-        currentLocation->display();
-    }
-    else {
-        std::cout << "No exit in that direction!\n";
+    alley->display();
+
+    //Access items by index
+    std::cout << "\n--- Accessing Items by Index ---\n";
+    std::cout << "Item at index 0: ";
+    Item* item = alley->getItem(0);
+    if (item != nullptr) {
+        item->display();
     }
 
-    // Go back south
-    std::cout << "\n>> Going SOUTH...\n";
-    if (currentLocation->hasSouthExit()) {
-        std::cout << "Exit exists! Moving south...\n";
-        currentLocation = currentLocation->getSouthExit();
-        currentLocation->display();
-    }
-    else {
-        std::cout << "No exit in that direction!\n";
+    std::cout << "Item at index 2: ";
+    item = alley->getItem(2);
+    if (item != nullptr) {
+        item->display();
     }
 
-    // Go east to alley
-    std::cout << "\n>> Going EAST...\n";
-    if (currentLocation->hasEastExit()) {
-        std::cout << "Exit exists! Moving east...\n";
-        currentLocation = currentLocation->getEastExit();
-        currentLocation->display();
-    }
-    else {
-        std::cout << "No exit in that direction!\n";
-    }
+    //Show item count
+    std::cout << "\nTotal items in location: " << alley->getItemCount() << "\n";
 
-    std::cout << "\n\nPress Enter to exit...";
-    std::cin.get();
+    //Memory cleanup
+    std::cout << "\n\n=== Memory Cleanup ===\n\n";
 
-    return 0;
+    //Delete all items
+    std::cout << "--- Deleting Items ---\n";
+    delete dataChip;
+    delete stimpack;
+    delete credStick;
+    delete hacker;
+    delete implant;
+
+    //Delete location (destructor deletes the array)
+    std::cout << "\n--- Deleting Location ---\n";
+    delete alley;
+
+    std::cout << "\nAll memory freed!\n";
 }
