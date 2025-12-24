@@ -36,6 +36,24 @@ Location::~Location() {
     delete[] items;
 }
 
+//Removes item from Item array (helper function)
+void Location::removeFromItemArray(int index) {
+    // Validate index
+    if (index < 0 || index >= itemCount) {
+        return;
+    }
+
+    // Shift remaining items down
+    for (int i = index; i < itemCount - 1; i++) {
+        items[i] = items[i + 1];
+    }
+
+    // Clear last slot and decrease count
+    items[itemCount - 1] = nullptr;
+    itemCount--;
+}
+
+
 //Resizes the item array when it becomes full
 void Location::resizeItemArray() {
     std::cout << "Resizing item array from " << itemCapacity;
@@ -124,14 +142,8 @@ Item* Location::removeItem(int index) {
 
     Item* removedItem = items[index];
 
-    //Shift remaining items down
-    for (int i = index; i < itemCount - 1; i++) {
-        items[i] = items[i + 1];
-    }
-
-    //Clear last slot and decrease count
-    items[itemCount - 1] = nullptr;
-    itemCount--;
+    //Remove from array using helper function
+    removeFromItemArray(index);
 
     std::cout << "Removed " << removedItem->getName()
         << " from " << name << "\n";

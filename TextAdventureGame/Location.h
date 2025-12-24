@@ -23,6 +23,7 @@ private:
 
     //Helper function to resize array
     void resizeItemArray();
+    void removeFromItemArray(int index);
 
 public:
     Location(const std::string& locationName, const std::string& locationDesc);

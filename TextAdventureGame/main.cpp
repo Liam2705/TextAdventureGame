@@ -1,17 +1,34 @@
-﻿#include "Location.h"
+﻿#include "Player.h"
+#include "Location.h"
 #include "Item.h"
 #include <iostream>
 
 int main() {
-    std::cout << "=== Testing Dynamic Arrays for Items ===\n\n";
+    std::cout << "=== Testing Dynamic arrays for picking up and dropping items ===\n\n";
 
-    //Create a location
-    std::cout << "--- Creating Location ---\n";
+    //Create locations
+    std::cout << "--- Creating Locations ---\n";
     Location* alley = new Location(
         "Dark Alley",
         "A shadowy corridor between neon-lit buildings.\n"
         "The perfect place for shady deals."
     );
+    Location* downtown = new Location(
+        "Neo-Tokyo Downtown",
+        "Rain-slicked streets reflect neon advertisements.\n"
+        "The air smells of synthetic ramen and ozone."
+    );
+    Location* market = new Location(
+        "Black Market",
+        "Holographic vendors hawk illegal cybernetics.\n"
+        "Everything here is untraceable... for a price."
+    );
+
+    // Connect locations
+    downtown->setEastExit(alley);
+    alley->setWestExit(downtown);
+    alley->setSouthExit(market);
+    market->setNorthExit(alley);
 
     //Create some cyberpunk items
     std::cout << "\n--- Creating Items ---\n";
@@ -21,50 +38,68 @@ int main() {
     Item* hacker = new Item("Hacking Tool", "Military-grade ICE breaker");
     Item* implant = new Item("Cybernetic Implant", "Optic enhancement module");
 
-    //Add items to location
+    //Add items to locations
     std::cout << "\n--- Adding Items to Location ---\n";
-    alley->addItem(dataChip);
+    downtown->addItem(dataChip);
+    downtown->addItem(credStick);
+
     alley->addItem(stimpack);
-    alley->addItem(credStick);
 
-    //Display location (shows items)
-    std::cout << "\n--- Displaying Location ---\n";
-    alley->display();
+    market->addItem(hacker);
+    market->addItem(implant);
 
-    //Test array resizing by adding more items
-    std::cout << "\n--- Testing Array Resize (capacity was 4) ---\n";
-    alley->addItem(hacker);    // 4th item 
-    alley->addItem(implant);   // 5th item - should trigger resize
+    //Set starting location
+    Location* startLocation = downtown;
 
-    alley->display();
+    //GAME TEST
+    // Create player
+    std::cout << "=== Creating Player ===\n";
+    Player* player = new Player("Liam", startLocation);
+    std::cout << "\n";
 
-    //Remove an item
-    std::cout << "\n--- Removing Item at Index 1 ---\n";
-    Item* removed = alley->removeItem(1);
-    if (removed != nullptr) {
-        std::cout << "Removed: ";
-        removed->display();
-    }
+    // Show starting location
+    std::cout << "=== GAME START ===\n";
+    player->look();
 
-    alley->display();
+    // Demonstrate gameplay
+    std::cout << "\n>> Picking up Encrypted Data Chip (item 0)...\n";
+    player->pickUpItem(0);
 
-    //Access items by index
-    std::cout << "\n--- Accessing Items by Index ---\n";
-    std::cout << "Item at index 0: ";
-    Item* item = alley->getItem(0);
-    if (item != nullptr) {
-        item->display();
-    }
+    std::cout << "\n>> Picking up Credstick (now item 0)...\n";
+    player->pickUpItem(0);
 
-    std::cout << "Item at index 2: ";
-    item = alley->getItem(2);
-    if (item != nullptr) {
-        item->display();
-    }
+    std::cout << "\n>> Checking inventory...\n";
+    player->showInventory();
 
-    //Show item count
-    std::cout << "\nTotal items in location: " << alley->getItemCount() << "\n";
+    std::cout << "\n>> Moving EAST to Dark Alley...\n";
+    player->moveEast();
+    player->look();
 
+    std::cout << "\n>> Picking up Neural Stimpack...\n";
+    player->pickUpItem(0);
+
+    std::cout << "\n>> Current inventory:\n";
+    player->showInventory();
+
+    std::cout << "\n>> Moving SOUTH to Black Market...\n";
+    player->moveSouth();
+    player->look();
+
+    std::cout << "\n>> Trying to move SOUTH (no exit)...\n";
+    player->moveSouth();  // Should fail
+
+    std::cout << "\n>> Dropping Credstick (item 1) here...\n";
+    player->dropItem(1);
+
+    std::cout << "\n>> Looking around:\n";
+    player->look();
+
+    std::cout << "\n>> Final inventory:\n";
+    player->showInventory();
+
+    std::cout << "\n>> Player status:\n";
+    player->showStatus();
+    
     //Memory cleanup
     std::cout << "\n\n=== Memory Cleanup ===\n\n";
 
@@ -78,7 +113,10 @@ int main() {
 
     //Delete location (destructor deletes the array)
     std::cout << "\n--- Deleting Location ---\n";
+    
+    delete downtown;
     delete alley;
+    delete market;
 
     std::cout << "\nAll memory freed!\n";
 }
