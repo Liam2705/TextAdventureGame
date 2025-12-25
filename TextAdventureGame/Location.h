@@ -26,6 +26,7 @@ private:
     void removeFromItemArray(int index);
 
 public:
+    //Constructor
     Location(const std::string& locationName, const std::string& locationDesc);
 
     //Destructor
