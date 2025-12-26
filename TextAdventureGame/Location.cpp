@@ -193,10 +193,10 @@ void Location::display() const {
     //Show which exits are available based on the pointer
     std::cout << "Exits: ";
     bool hasAnyExit = false;
-    if (northExit != nullptr) { std::cout << "[NORTH] "; hasAnyExit = true; }
-    if (southExit != nullptr) { std::cout << "[SOUTH] "; hasAnyExit = true; }
-    if (eastExit != nullptr) { std::cout << "[EAST] "; hasAnyExit = true; }
-    if (westExit != nullptr) { std::cout << "[WEST] "; hasAnyExit = true; }
+    if (northExit != nullptr) { std::cout << "[NORTH] " << northExit->getName() << "\n"; hasAnyExit = true; }
+    if (southExit != nullptr) { std::cout << "[SOUTH] " << southExit->getName() << "\n"; hasAnyExit = true; }
+    if (eastExit != nullptr) { std::cout << "[EAST] " << eastExit->getName() << "\n"; hasAnyExit = true; }
+    if (westExit != nullptr) { std::cout << "[WEST] " << westExit->getName() << "\n"; hasAnyExit = true; }
     if (!hasAnyExit) { std::cout << "None"; }
 
     std::cout << "\n==================================================\n";

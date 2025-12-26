@@ -1,13 +1,17 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "Location.h"
 #include "Item.h"
 #include <iostream>
 
 const int INITIAL_INVENTORY_CAPACITY = 10;
+const int STARTING_HEALTH = 100;
+const int INDUSTRIAL_DAMAGE = 10;
 
 //Constructor
-Player::Player(const std::string& playerName, Location* startingLocation)
+Player::Player(const std::string & playerName, Location * startingLocation)
     : name(playerName),
+    health(STARTING_HEALTH),
+    maxHealth(STARTING_HEALTH),
     inventoryCount(0),
     inventoryCapacity(INITIAL_INVENTORY_CAPACITY),
     currentLocation(startingLocation) {
@@ -77,8 +81,14 @@ void Player::resizeInventory() {
 //Getters
 std::string Player::getName() const { return name; }
 Location* Player::getCurrentLocation() const { return currentLocation; }
+
 int Player::getInventoryCount() const { return inventoryCount; }
 int Player::getInventoryCapacity() const { return inventoryCapacity; }
+
+int Player::getHealth() const { return health; }
+int Player::getMaxHealth() const { return maxHealth; }
+
+bool Player::isDead() const { return health <= 0; }
 
 //Movement
 bool Player::moveNorth() {
@@ -86,6 +96,9 @@ bool Player::moveNorth() {
     {
         currentLocation = currentLocation->getNorthExit();
         std::cout << "You move north.\n";
+        if (currentLocation->getAreaName() == "Industrial Sector") {
+            takeDamage(INDUSTRIAL_DAMAGE);
+        }
         return true;
     }
     std::cout << "You can't go that way.\n";
@@ -96,6 +109,9 @@ bool Player::moveSouth() {
     if (currentLocation->hasSouthExit()) {
         currentLocation = currentLocation->getSouthExit();
         std::cout << "You move south.\n";
+        if (currentLocation->getAreaName() == "Industrial Sector") {
+            takeDamage(INDUSTRIAL_DAMAGE);
+        }
         return true;
     }
     std::cout << "You can't go that way.\n";
@@ -106,6 +122,9 @@ bool Player::moveEast() {
     if (currentLocation->hasEastExit()) {
         currentLocation = currentLocation->getEastExit();
         std::cout << "You move east.\n";
+        if (currentLocation->getAreaName() == "Industrial Sector") {
+            takeDamage(INDUSTRIAL_DAMAGE);
+        }
         return true;
     }
     std::cout << "You can't go that way.\n";
@@ -116,10 +135,68 @@ bool Player::moveWest() {
     if (currentLocation->hasWestExit()) {
         currentLocation = currentLocation->getWestExit();
         std::cout << "You move west.\n";
+        if (currentLocation->getAreaName() == "Industrial Sector") {
+            takeDamage(INDUSTRIAL_DAMAGE);
+        }
         return true;
     }
     std::cout << "You can't go that way.\n";
     return false;
+}
+
+//Health Management
+void Player::takeDamage(int damageAmount) {
+    if (damageAmount <= 0) return;
+
+    health -= damageAmount;
+
+    if (health < 0) {
+        health = 0;
+    }
+
+    std::cout << "\nYou take " << damageAmount << " damage! ";
+    std::cout << "(Health: " << health << "/" << maxHealth << ")\n";
+
+    if (isDead()) {
+        std::cout << "\nYOU HAVE DIED\n";
+        std::cout << "Your vision fades to black...\n";
+        std::cout << "\nGAME OVER\n";
+    }
+    else if (health <= 20) {
+        std::cout << "WARNING: Critical health! Find healing immediately!\n";
+    }
+    else if (health <= 50) {
+        std::cout << "Your health is low.\n";
+    }
+}
+
+void Player::heal(int healAmount) {
+    if (healAmount <= 0) return;
+
+    int oldHealth = health;
+    health += healAmount;
+
+    if (health > maxHealth) {
+        health = maxHealth;
+    }
+
+    int actualHealed = health - oldHealth;
+
+    std::cout << "\nHealed " << actualHealed << " health! ";
+    std::cout << "(Health: " << health << "/" << maxHealth << ")\n";
+}
+
+void Player::setMaxHealth(int newMaxHealth) {
+    if (newMaxHealth > 0) {
+        maxHealth = newMaxHealth;
+
+        // Heal to new max if current health exceeds it
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+
+        std::cout << "\nMax health increased to " << maxHealth << "!\n";
+    }
 }
 
 //Item mangement
@@ -234,6 +311,20 @@ void Player::showStatus() const {
     std::cout << "========================================\n";
     std::cout << "Name: " << name << "\n";
     std::cout << "Location: " << currentLocation->getName() << "\n";
-    std::cout << "Items carried: " << inventoryCount << "/" << inventoryCapacity << "\n";
+    std::cout << "========================================\n";
+
+    std::cout << "Health: " << health << "/" << maxHealth;
+
+    if (health <= 20) {
+        std::cout << " CRITICAL";
+    }
+    else if (health <= 50) {
+        std::cout << " LOW";
+    }
+    else if (health >= maxHealth) {
+        std::cout << " FULL";
+    }
+
+    std::cout << "\nItems carried: " << inventoryCount << "/" << inventoryCapacity << "\n";
     std::cout << "========================================\n";
 }

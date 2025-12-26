@@ -9,6 +9,10 @@ class Item;
 class Player {
 private:
     std::string name;
+
+    int health;
+    int maxHealth;
+
     Item** inventory;       
     int inventoryCount;     
     int inventoryCapacity;  
@@ -29,8 +33,18 @@ public:
     //Getters
     std::string getName() const;
     Location* getCurrentLocation() const;
+
     int getInventoryCount() const;
     int getInventoryCapacity() const;
+
+    int getHealth() const;
+    int getMaxHealth() const;
+    bool isDead() const;
+
+    //Health management
+    void takeDamage(int damageAmount);
+    void heal(int healAmount);
+    void setMaxHealth(int newMaxHealth);
 
     //Movement
     bool moveNorth();
