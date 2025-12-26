@@ -31,6 +31,7 @@ private:
 	void handleLook();
 	void handleMove();
 	void handleTakeItem();
+	void handleUseItem();
 	void handleDropItem();
 	void handleInventory();
 	void handleStatus();

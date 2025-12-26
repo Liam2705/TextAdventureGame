@@ -190,7 +190,7 @@ void Player::setMaxHealth(int newMaxHealth) {
     if (newMaxHealth > 0) {
         maxHealth = newMaxHealth;
 
-        // Heal to new max if current health exceeds it
+        //Heal to new max if current health exceeds it
         if (health > maxHealth) {
             health = maxHealth;
         }
@@ -327,4 +327,47 @@ void Player::showStatus() const {
 
     std::cout << "\nItems carried: " << inventoryCount << "/" << inventoryCapacity << "\n";
     std::cout << "========================================\n";
+}
+
+//Use an item from inventory
+bool Player::useItem(int inventoryIndex) {
+    if (inventoryIndex < 0 || inventoryIndex >= inventoryCount) {
+        std::cout << "\nInvalid inventory slot.\n";
+        return false;
+    }
+
+    Item* item = inventory[inventoryIndex];
+
+    if (item == nullptr) {
+        std::cout << "\nNo item in that slot.\n";
+        return false;
+    }
+
+    //Check if item is usable
+    if (!item->getIsUsable()) {
+        std::cout << "\nYou can't use that item.\n";
+        return false;
+    }
+
+    //Try to use the item
+    bool consumed = item->use(this, currentLocation);
+
+    //If item was consumed (like a stimpack), remove it
+    if (consumed) {
+        std::cout << item->getName() << " was consumed.\n";
+        delete item;  // Free the item's memory
+        removeFromInventoryArray(inventoryIndex);
+    }
+
+    return true;
+}
+
+//Check if the player has a specific item
+bool Player::hasItem(const std::string& itemName) const {
+    for (int i = 0; i < inventoryCount; i++) {
+        if (inventory[i]->getName() == itemName) {
+            return true;
+        }
+    }
+    return false;
 }

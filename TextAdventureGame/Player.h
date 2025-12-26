@@ -1,4 +1,5 @@
 #ifndef PLAYER_H
+#define PLAYER_H
 
 #include <string>
 
@@ -54,8 +55,10 @@ public:
 
     //Item Management
     bool pickUpItem(int locationItemIndex);  //Take item from location
+    bool useItem(int invetoryIndex);         //Uses a compatible item
     bool dropItem(int inventoryIndex);       //Drop item to location
     Item* getInventoryItem(int index) const; //Get item from inventory
+    bool hasItem(const std::string& itemName) const;  //Check if the player has an item
 
     //Display
     void look() const;              //Show the current location

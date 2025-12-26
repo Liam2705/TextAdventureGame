@@ -45,6 +45,9 @@
     <ClCompile Include="GameEngine.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="Stimpack.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Location.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stimpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -187,11 +187,11 @@ void Location::display() const {
     if (itemCount > 0) {
         std::cout << "Items here:\n";
         listItems();
-        std::cout << "\n";
+        
     }
 
     //Show which exits are available based on the pointer
-    std::cout << "Exits: ";
+    std::cout << "\nExits: \n";
     bool hasAnyExit = false;
     if (northExit != nullptr) { std::cout << "[NORTH] " << northExit->getName() << "\n"; hasAnyExit = true; }
     if (southExit != nullptr) { std::cout << "[SOUTH] " << southExit->getName() << "\n"; hasAnyExit = true; }
