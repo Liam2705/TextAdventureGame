@@ -5,9 +5,10 @@
 //Starting capacity item array
 const int INITIAL_CAPACITY = 4;
 
-Location::Location(const std::string& locationName, const std::string& locationDesc)
+Location::Location(const std::string& locationName, const std::string& locationDesc, const std::string& area)
 	: name(locationName), 
 	description(locationDesc),
+    areaName(area),
 	northExit(nullptr),
 	southExit(nullptr),
 	eastExit(nullptr),
@@ -85,6 +86,8 @@ void Location::resizeItemArray() {
 //Getters
 std::string Location::getName() const{ return name; }
 std::string Location::getDescription() const { return description; }
+
+std::string Location::getAreaName() const { return areaName; }
 
 int Location::getItemCount() const { return itemCount; }
 
@@ -176,7 +179,7 @@ void Location::listItems() const {
 //Display Information about a location
 void Location::display() const {
     std::cout << "\n==================================================\n";
-    std::cout << "  " << name << "\n";
+    std::cout << " [" << areaName << "] " << name << "\n";
     std::cout << "==================================================\n";
     std::cout << description << "\n\n";
 

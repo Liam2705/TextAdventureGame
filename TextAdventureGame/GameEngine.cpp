@@ -39,72 +39,181 @@ GameEngine::~GameEngine() {
 void GameEngine::createWorld() {
 	std::cout << "\nCreating cyberpunk world...\n\n";
 
-	//Creating locations
-    Location* downtown = new Location(
-        "Neo-Tokyo Downtown",
-        "Neon signs flicker in the perpetual rain. Corporate towers\n"
-        "loom overhead, their glass facades reflecting advertisements.\n"
-        "The air smells of synthetic ramen and ozone."
+    //DOWNTOWN DISTRICT (Area)
+    Location* neonStreet = new Location(
+        "Neon Street",
+        "The main street pulses with holographic advertisements.\n"
+        "Rain reflects neon signs in endless colors. Street vendors\n"
+        "hawk synthetic food from steaming carts.",
+        "Downtown District"
     );
 
-    Location* alley = new Location(
-        "Dark Alley",
-        "A narrow passage between buildings. Water drips from rusty\n"
-        "fire escapes above. This is where real deals go down."
+    Location* ramenBar = new Location(
+        "Ramen Bar",
+        "A small establishment wedged between corporate towers.\n"
+        "Steam rises from bowls of synthetic noodles. This is where\n"
+        "runners meet their fixers.",
+        "Downtown District"
     );
 
-    Location* market = new Location(
+    Location* blackMarket = new Location(
         "Black Market",
-        "Holographic vendors hawk illegal cybernetics and stolen data.\n"
-        "Everything here is untraceable... for a price."
+        "Holographic vendors flicker in the shadows. Everything here\n"
+        "is untraceable, off the grid. Credits talk, questions don't.",
+        "Downtown District"
     );
 
-    Location* corpo = new Location(
-        "Corporate Plaza",
-        "Gleaming chrome and polished marble. Security drones patrol\n"
-        "silently. The corporate elite move through without seeing you."
+    Location* apartment = new Location(
+        "Your Apartment",
+        "A cramped studio forty floors up. Your terminal hums quietly.\n"
+        "Rain streaks down the window, blurring the neon outside.\n"
+        "This is home, for what it's worth.",
+        "Downtown District"
     );
 
-    //Adding locations to vector for memory management and cleanup later
-    allLocations.push_back(downtown);
-    allLocations.push_back(alley);
-    allLocations.push_back(market);
-    allLocations.push_back(corpo);
+    Location* transitDowntown = new Location(
+        "Downtown Transit Station",
+        "A grimy subway platform. Flickering lights illuminate transit\n"
+        "maps. From here you can reach the Industrial Sector.",
+        "Downtown District"
+    );
 
-    //Connect locations
-    downtown->setNorthExit(corpo);
-    downtown->setEastExit(alley);
+    //Connecting Downtown locations
+    neonStreet->setNorthExit(ramenBar);
+    neonStreet->setEastExit(blackMarket);
+    neonStreet->setWestExit(apartment);
 
-    alley->setWestExit(downtown);
-    alley->setSouthExit(market);
+    ramenBar->setSouthExit(neonStreet);
+    blackMarket->setWestExit(neonStreet);
+    blackMarket->setNorthExit(transitDowntown);
+    apartment->setEastExit(neonStreet);
 
-    market->setNorthExit(alley);
+    transitDowntown->setSouthExit(blackMarket);
 
-    corpo->setSouthExit(downtown);
+    //Adding Downtown locations to vector for memory management and cleanup later
+    allLocations.push_back(neonStreet);
+    allLocations.push_back(ramenBar);
+    allLocations.push_back(blackMarket);
+    allLocations.push_back(apartment);
+    allLocations.push_back(transitDowntown);
 
-    //Creating items
-    Item* dataChip = new Item("Encrypted Data Chip", "Corporate secrets worth millions");
-    Item* stimpack = new Item("Neural Stimpack", "Boosts reaction time temporarily");
-    Item* credstick = new Item("Credstick (500c)", "Untraceable credits");
-    Item* hacker = new Item("ICE Breaker", "Military-grade hacking tool");
-    Item* implant = new Item("Optic Implant", "Enhanced vision cybernetics");
+    //INDUSTRIAL SECTOR
+    Location* transitIndustrial = new Location(
+        "Industrial Transit Station",
+        "The platform reeks of oil and rust. This is the gateway to\n"
+        "the Industrial Sector. You can return Downtown from here.",
+        "Industrial Sector"
+    );
 
-    //Store items for cleanup and memory management
-    allItems.push_back(dataChip);
+    Location* factory = new Location(
+        "Abandoned Factory",
+        "Rusted machinery looms in the darkness. This factory has been\n"
+        "abandoned for years. Vagrants and scavengers pick through the\n"
+        "remains. Somewhere here is what you need.",
+        "Industrial Sector"
+    );
+
+    Location* warehouse = new Location(
+        "Corporate Warehouse",
+        "Stacks of crates reach toward the ceiling. Corporate security\n"
+        "patrols occasionally sweep through. The keycard you need is\n"
+        "somewhere in here... if you can find it without being caught.",
+        "Industrial Sector"
+    );
+
+    //Connecting Industrial locations
+    transitIndustrial->setNorthExit(factory);
+    transitIndustrial->setSouthExit(warehouse);
+
+    factory->setSouthExit(transitIndustrial);
+    factory->setWestExit(warehouse);
+
+    warehouse->setNorthExit(transitIndustrial);
+    warehouse->setEastExit(factory);
+
+    //Adding Industrial locations to vector for memory management and cleanup
+    allLocations.push_back(transitIndustrial);
+    allLocations.push_back(factory);
+    allLocations.push_back(warehouse);
+
+    //Connecting transit locations to allow travel between areas
+    transitDowntown->setEastExit(transitIndustrial);
+    transitIndustrial->setWestExit(transitDowntown);
+
+
+    //CORPORATE PLAZA
+    Location* transitCorporate = new Location(
+        "Corporate Transit Terminal",
+        "A pristine transit hub serving the Corporate Plaza. Everything\n"
+        "here is chrome and glass. Security is everywhere.",
+        "Corporate Plaza"
+    );
+
+    Location* plazaEntrance = new Location(
+        "Corporate Plaza Entrance",
+        "Towering glass and steel reach into the smog. Corporate drones\n"
+        "patrol silently. A security checkpoint blocks the main entrance.\n"
+        "You'll need proper credentials to enter.",
+        "Corporate Plaza"
+    );
+
+    Location* lobby = new Location(
+        "Corporate Lobby",
+        "Polished marble floors reflect harsh fluorescent lights.\n"
+        "Security drones hover near the ceiling. The elevator to the\n"
+        "server room is ahead. You're in enemy territory now.",
+        "Corporate Plaza"
+    );
+
+    Location* serverRoom = new Location(
+        "Server Room",
+        "Banks of servers hum with data. Climate control keeps the\n"
+        "room ice cold. The target data is here, behind layers of\n"
+        "security. This is what you came for.",
+        "Corporate Plaza"
+    );
+
+    //Connecting Corporate locations
+    transitCorporate->setEastExit(plazaEntrance);
+    plazaEntrance->setWestExit(transitCorporate);
+    plazaEntrance->setNorthExit(lobby);
+    lobby->setSouthExit(plazaEntrance);
+    lobby->setNorthExit(serverRoom);
+    serverRoom->setSouthExit(lobby);
+
+    //Adding Corporate locations to vector for memory management and cleanup
+    allLocations.push_back(transitCorporate);
+    allLocations.push_back(plazaEntrance);
+    allLocations.push_back(lobby);
+    allLocations.push_back(serverRoom);
+
+    //Connecting Corporate transit locations
+    transitDowntown->setNorthExit(transitCorporate);
+    transitCorporate->setSouthExit(transitDowntown);
+
+    //CREATE ITEMS
+    Item* credits = new Item("Credstick (500c)", "Untraceable digital currency");
+    Item* hackingDevice = new Item("Military ICE Breaker", "High-grade hacking tool");
+    Item* keycard = new Item("Security Keycard", "Corporate access card");
+    Item* stimpack = new Item("Neural Stimpack", "Boosts reaction time and heals injuries");
+    Item* dataChip = new Item("Encrypted Data Chip", "The target data");
+
+    //Adding items to the vector for memory management and cleanup
+    allItems.push_back(credits);
+    allItems.push_back(hackingDevice);
+    allItems.push_back(keycard);
     allItems.push_back(stimpack);
-    allItems.push_back(credstick);
-    allItems.push_back(hacker);
-    allItems.push_back(implant);
+    allItems.push_back(dataChip);
 
-    //Place items in locations
-    downtown->addItem(dataChip);
-    downtown->addItem(credstick);
-    alley->addItem(stimpack);
-    market->addItem(hacker);
-    market->addItem(implant);
+    //Placing items in locations
+    blackMarket->addItem(credits);
+    blackMarket->addItem(stimpack);
+    factory->addItem(hackingDevice);
+    warehouse->addItem(keycard);
+    serverRoom->addItem(dataChip);
 
     //Create player at starting location
-    player = new Player("Runner", downtown);
+    player = new Player("Runner", neonStreet);
 
     std::cout << "World created!\n";
 }
@@ -279,9 +388,8 @@ void GameEngine::handleTakeItem() {
         return;
     }
 
-    std::cout << "\nItems here:\n";
-    current->listItems();
-    std::cout << (current->getItemCount()) << ". Cancel\n";
+    displayItemsAtLocation();
+    std::cout << current->getItemCount() << ". Cancel\n";
 
     int choice = getPlayerChoice(0, current->getItemCount());
 
@@ -383,4 +491,22 @@ int GameEngine::getPlayerChoice(int minChoice, int maxChoice) {
 void GameEngine::waitForEnter() {
     std::cout << "\nPress Enter to continue...";
     std::cin.get();
+}
+
+void GameEngine::clearScreen() {
+    //Windows
+    #ifdef _WIN32
+    system("cls");
+    //Unix/Linux/Mac
+    #else
+    system("clear");
+    #endif
+}
+
+//Display the items at current location
+void GameEngine::displayItemsAtLocation() const {
+    Location* current = player->getCurrentLocation();
+
+    std::cout << "\nItems here:\n";
+    current->listItems();
 }

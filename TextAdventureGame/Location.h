@@ -9,12 +9,15 @@ class Location {
 private:
     std::string name;
     std::string description;
+    
+    //Area - each area has multiple sub-locations
+    std::string areaName;
 
     //Pointer Based Navigation System
     Location* northExit;
     Location* southExit;
     Location* eastExit;
-    Location* westExit;
+    Location* westExit;    
 
     //Dynamic Array for Items
     Item** items;  //Pointer to the array of item pointers
@@ -27,7 +30,7 @@ private:
 
 public:
     //Constructor
-    Location(const std::string& locationName, const std::string& locationDesc);
+    Location(const std::string& locationName, const std::string& locationDesc, const std::string& area);
 
     //Destructor
     ~Location();
@@ -36,6 +39,8 @@ public:
     std::string getName() const;
     std::string getDescription() const;
     int getItemCount() const;
+
+    std::string getAreaName() const;
 
     Location* getNorthExit() const;
     Location* getSouthExit() const;
