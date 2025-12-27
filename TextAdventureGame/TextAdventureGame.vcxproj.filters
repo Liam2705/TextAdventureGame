@@ -28,6 +28,18 @@
     <Filter Include="Source Files\systems">
       <UniqueIdentifier>{24913467-bf19-4855-bb2d-d956aad3a139}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\items">
+      <UniqueIdentifier>{d32fab18-b5f2-4196-9642-4ad96fc000b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{a3fed473-046f-4fb8-b6f0-d2f3ad925d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entities">
+      <UniqueIdentifier>{980d4a01-2d79-48b7-8453-6df98d29bc25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\world">
+      <UniqueIdentifier>{33158b37-e73e-4ceb-b155-b795c0f6bbdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,22 +60,28 @@
     <ClCompile Include="Stimpack.cpp">
       <Filter>Source Files\items</Filter>
     </ClCompile>
+    <ClCompile Include="HackingTool.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Location.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\items</Filter>
     </ClInclude>
     <ClInclude Include="Stimpack.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Location.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="HackingTool.h">
+      <Filter>Header Files\items</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
