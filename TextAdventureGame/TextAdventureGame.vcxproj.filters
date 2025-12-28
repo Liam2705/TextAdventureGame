@@ -63,6 +63,9 @@
     <ClCompile Include="HackingTool.cpp">
       <Filter>Source Files\items</Filter>
     </ClCompile>
+    <ClCompile Include="Keycard.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files\world</Filter>
     </ClInclude>
     <ClInclude Include="HackingTool.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Keycard.h">
       <Filter>Header Files\items</Filter>
     </ClInclude>
   </ItemGroup>
