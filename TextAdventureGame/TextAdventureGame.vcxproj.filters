@@ -66,6 +66,9 @@
     <ClCompile Include="Keycard.cpp">
       <Filter>Source Files\items</Filter>
     </ClCompile>
+    <ClCompile Include="TextEffects.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="Keycard.h">
       <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEffects.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

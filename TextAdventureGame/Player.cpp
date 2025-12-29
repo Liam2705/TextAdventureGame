@@ -94,7 +94,14 @@ bool Player::isDead() const { return health <= 0; }
 bool Player::moveNorth() {
     if (currentLocation->hasNorthExit())
     {
-        currentLocation = currentLocation->getNorthExit();
+        Location* nextLocation = currentLocation->getNorthExit();
+
+        //Story Gates
+        if (!checkLocationAccess(nextLocation)) {
+            return false;
+        }
+        
+        currentLocation = nextLocation;
         std::cout << "You move north.\n";
         if (currentLocation->getAreaName() == "Industrial Sector") {
             takeDamage(INDUSTRIAL_DAMAGE);
@@ -107,7 +114,14 @@ bool Player::moveNorth() {
 
 bool Player::moveSouth() {
     if (currentLocation->hasSouthExit()) {
-        currentLocation = currentLocation->getSouthExit();
+
+        Location* nextLocation = currentLocation->getSouthExit();
+
+        if (!checkLocationAccess(nextLocation)) {
+            return false;
+        }
+
+        currentLocation = nextLocation;
         std::cout << "You move south.\n";
         if (currentLocation->getAreaName() == "Industrial Sector") {
             takeDamage(INDUSTRIAL_DAMAGE);
@@ -120,7 +134,14 @@ bool Player::moveSouth() {
 
 bool Player::moveEast() {
     if (currentLocation->hasEastExit()) {
-        currentLocation = currentLocation->getEastExit();
+
+        Location* nextLocation = currentLocation->getEastExit();
+
+        if (!checkLocationAccess(nextLocation)) {
+            return false;
+        }
+
+        currentLocation = nextLocation;
         std::cout << "You move east.\n";
         if (currentLocation->getAreaName() == "Industrial Sector") {
             takeDamage(INDUSTRIAL_DAMAGE);
@@ -133,7 +154,14 @@ bool Player::moveEast() {
 
 bool Player::moveWest() {
     if (currentLocation->hasWestExit()) {
-        currentLocation = currentLocation->getWestExit();
+
+        Location* nextLocation = currentLocation->getWestExit();
+
+        if (!checkLocationAccess(nextLocation)) {
+            return false;
+        }
+
+        currentLocation = nextLocation;
         std::cout << "You move west.\n";
         if (currentLocation->getAreaName() == "Industrial Sector") {
             takeDamage(INDUSTRIAL_DAMAGE);
@@ -370,4 +398,64 @@ bool Player::hasItem(const std::string& itemName) const {
         }
     }
     return false;
+}
+
+// Check if player can access a location (story gates)
+bool Player::checkLocationAccess(Location* location) {
+    if (location == nullptr) {
+        return false;
+    }
+
+    std::string locationName = location->getName();
+
+    // GATE 1: Corporate Plaza Entrance requires keycard
+    if (locationName == "Corporate Plaza Entrance") {
+        if (!hasItem("Security Keycard")) {
+            std::cout << "\n================================================\n";
+            std::cout << "            ACCESS DENIED                        \n";
+            std::cout << "================================================\n";
+            std::cout << "\nA security checkpoint blocks the entrance to the\n";
+            std::cout << "Corporate Plaza. Armed guards watch the barriers.\n";
+            std::cout << "Red light flashes on the scanner.\n\n";
+            std::cout << "You need a SECURITY KEYCARD to enter.\n";
+            std::cout << "\nHint: Check the Corporate Warehouse in the\n";
+            std::cout << "   Industrial Sector.\n";
+            return false;
+        }
+
+        //Player has keycard - show success
+        std::cout << "\n================================================\n";
+        std::cout << "           ACCESS GRANTED                       \n";
+        std::cout << "================================================\n";
+        std::cout << "\nYou flash the security keycard.\n";
+        std::cout << "The scanner beeps. Green light.\n";
+        std::cout << "The guards nod and wave you through.\n";
+    }
+
+    //GATE 2: Server Room requires hacking device
+    if (locationName == "Server Room") {
+        if (!hasItem("Military ICE Breaker")) {
+            std::cout << "\n================================================\n";
+            std::cout << "           ENCRYPTION DETECTED                  \n";
+            std::cout << "================================================\n";
+            std::cout << "\nThe server room doors are locked behind layers of\n";
+            std::cout << "military-grade encryption. Your basic tools won't\n";
+            std::cout << "cut it. You need something more powerful.\n\n";
+            std::cout << "You need a MILITARY ICE BREAKER to hack through.\n";
+            std::cout << "\Hint: Check the Abandoned Factory in the\n";
+            std::cout << "   Industrial Sector.\n";
+            return false;
+        }
+
+        //Player has hacking device - show success
+        std::cout << "\n================================================\n";
+        std::cout << "            ENCRYPTION BYPASSED                  \n";
+        std::cout << "================================================\n";
+        std::cout << "\nYou deploy the military ICE breaker.\n";
+        std::cout << "Code cascades. Firewalls crumble.\n";
+        std::cout << "The server room door slides open.\n";
+    }
+
+    // Access granted
+    return true;
 }

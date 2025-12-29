@@ -15,6 +15,11 @@ private:
 	Player* player;
 	bool isRunning;
 
+	//Tracks the act
+	int currentAct;
+	bool act2Triggered;
+	bool act3Triggered;
+
 	//Storing pointers for all game locations to help with memory management and cleanup
 	std::vector<Location*> allLocations;
 	std::vector<Item*> allItems;
@@ -23,6 +28,9 @@ private:
 	void displayMainMenu() const;
 	void displayMoveMenu() const;
 	void displayItemsAtLocation() const;
+	void checkActProgression();
+	void triggerAct2();
+	void triggerAct3();
 
 	void clearScreen();
 	void waitForEnter();

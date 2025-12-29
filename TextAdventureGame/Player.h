@@ -22,7 +22,8 @@ private:
 
     //Helper functions for inventory management
     void resizeInventory();
-    void removeFromInventoryArray(int index); 
+    void removeFromInventoryArray(int index);
+    bool checkLocationAccess(Location* location);
 
 public:
     //Constructor
