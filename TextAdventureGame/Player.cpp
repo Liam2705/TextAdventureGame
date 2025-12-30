@@ -442,7 +442,7 @@ bool Player::checkLocationAccess(Location* location) {
             std::cout << "military-grade encryption. Your basic tools won't\n";
             std::cout << "cut it. You need something more powerful.\n\n";
             std::cout << "You need a MILITARY ICE BREAKER to hack through.\n";
-            std::cout << "\Hint: Check the Abandoned Factory in the\n";
+            std::cout << "\nHint: Check the Abandoned Factory in the\n";
             std::cout << "   Industrial Sector.\n";
             return false;
         }

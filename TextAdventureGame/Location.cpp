@@ -1,5 +1,6 @@
 #include "location.h"
 #include "Item.h"
+#include "NPC.h"
 #include <iostream>
 
 //Starting capacity item array
@@ -14,7 +15,9 @@ Location::Location(const std::string& locationName, const std::string& locationD
 	eastExit(nullptr),
 	westExit(nullptr),
     itemCount(0),
-    itemCapacity(INITIAL_CAPACITY)  { //Initial capacity = 4
+    itemCapacity(INITIAL_CAPACITY),
+    npcCount(0),
+    npcCapacity(INITIAL_CAPACITY) {
 
     //Allocating array of item pointers
     items = new Item * [itemCapacity];
@@ -23,6 +26,14 @@ Location::Location(const std::string& locationName, const std::string& locationD
     for (int i = 0; i < itemCapacity; i++)
     {
         items[i] = nullptr;
+    }
+
+    //Allocating array of NPC pointers
+    npcs = new NPC * [npcCapacity];
+
+    //Initialising all pointers to nullptr
+    for (int i = 0; i < npcCapacity; i++) {
+        npcs[i] = nullptr;
     }
 
 	//Testing purposes
@@ -82,6 +93,38 @@ void Location::resizeItemArray() {
     itemCapacity = newCapacity;
 }
 
+//Resizes NPC array when full
+void Location::resizeNPCArray() {
+    int newCapacity = npcCapacity * 2;
+    NPC** newArray = new NPC * [newCapacity];
+
+    for (int i = 0; i < npcCount; i++) {
+        newArray[i] = npcs[i];
+    }
+
+    for (int i = npcCount; i < newCapacity; i++) {
+        newArray[i] = nullptr;
+    }
+
+    delete[] npcs;
+    npcs = newArray;
+    npcCapacity = newCapacity;
+}
+
+//Removes an NPC from the array
+void Location::removeFromNPCArray(int index) {
+    if (index < 0 || index >= npcCount) {
+        return;
+    }
+
+    for (int i = index; i < npcCount - 1; i++) {
+        npcs[i] = npcs[i + 1];
+    }
+
+    npcs[npcCount - 1] = nullptr;
+    npcCount--;
+}
+
 
 //Getters
 std::string Location::getName() const{ return name; }
@@ -90,6 +133,7 @@ std::string Location::getDescription() const { return description; }
 std::string Location::getAreaName() const { return areaName; }
 
 int Location::getItemCount() const { return itemCount; }
+int Location::getNPCCount() const { return npcCount; }
 
 Location* Location::getNorthExit() const { return northExit; }
 Location* Location::getSouthExit() const { return southExit; }
@@ -190,6 +234,13 @@ void Location::display() const {
         
     }
 
+    //Show NPCs
+    if (npcCount > 0) {
+        std::cout << "People here:\n";
+        listNPCs();
+        std::cout << "\n";
+    }
+
     //Show which exits are available based on the pointer
     std::cout << "\nExits: \n";
     bool hasAnyExit = false;
@@ -200,5 +251,52 @@ void Location::display() const {
     if (!hasAnyExit) { std::cout << "None"; }
 
     std::cout << "\n==================================================\n";
+}
+
+//Adds NPC to a location
+void Location::addNPC(NPC* npc) {
+    if (npc == nullptr) {
+        return;
+    }
+
+    if (npcCount >= npcCapacity) {
+        resizeNPCArray();
+    }
+
+    npcs[npcCount] = npc;
+    npcCount++;
+}
+
+//Removes and return NPC
+NPC* Location::removeNPC(int index) {
+    if (index < 0 || index >= npcCount) {
+        return nullptr;
+    }
+
+    NPC* removedNPC = npcs[index];
+    removeFromNPCArray(index);
+
+    return removedNPC;
+}
+
+//Gets NPC without removing
+NPC* Location::getNPC(int index) const {
+    if (index < 0 || index >= npcCount) {
+        return nullptr;
+    }
+    return npcs[index];
+}
+
+//Lists all NPCs
+void Location::listNPCs() const {
+    if (npcCount == 0) {
+        std::cout << "  (no one here)\n";
+        return;
+    }
+
+    for (int i = 0; i < npcCount; i++) {
+        std::cout << "  [" << i << "] ";
+        npcs[i]->display();
+    }
 }
 

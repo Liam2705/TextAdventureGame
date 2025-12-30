@@ -3,7 +3,9 @@
 
 #include <string>
 
+//Forward Declarations
 class Item;
+class NPC;
 
 class Location {
 private:
@@ -24,9 +26,16 @@ private:
     int itemCount; //Number of Items in the array
     int itemCapacity; //Capacity of the array
 
+    //Dynamic array for NPCs
+    NPC** npcs;
+    int npcCount;
+    int npcCapacity;
+
     //Helper function to resize array
     void resizeItemArray();
     void removeFromItemArray(int index);
+    void resizeNPCArray();
+    void removeFromNPCArray(int index);
 
 public:
     //Constructor
@@ -39,6 +48,7 @@ public:
     std::string getName() const;
     std::string getDescription() const;
     int getItemCount() const;
+    int getNPCCount() const;
 
     std::string getAreaName() const;
 
@@ -67,6 +77,12 @@ public:
     Item* removeItem(int index);
     Item* getItem(int index) const;
     void listItems() const;
+
+    //NPC management
+    void addNPC(NPC* npc);
+    NPC* removeNPC(int index);
+    NPC* getNPC(int index) const;
+    void listNPCs() const;
 };
 
 #endif

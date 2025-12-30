@@ -69,6 +69,9 @@
     <ClCompile Include="TextEffects.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Source Files\entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="TextEffects.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Header Files\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

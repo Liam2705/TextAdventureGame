@@ -135,6 +135,7 @@
     <ClCompile Include="Keycard.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stimpack.cpp" />
     <ClCompile Include="TextEffects.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="Keycard.h" />
     <ClInclude Include="Location.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Stimpack.h" />
     <ClInclude Include="TextEffects.h" />

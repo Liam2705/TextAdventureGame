@@ -8,6 +8,7 @@
 class Player;
 class Location;
 class Item;
+class NPC;
 
 
 class GameEngine {
@@ -23,6 +24,7 @@ private:
 	//Storing pointers for all game locations to help with memory management and cleanup
 	std::vector<Location*> allLocations;
 	std::vector<Item*> allItems;
+	std::vector<NPC*> allNPCs;
 
 	//Helper functions
 	void displayMainMenu() const;
@@ -41,6 +43,7 @@ private:
 	void handleTakeItem();
 	void handleUseItem();
 	void handleDropItem();
+	void handleTalkToNPC();
 	void handleInventory();
 	void handleStatus();
 	void handleHelp();
