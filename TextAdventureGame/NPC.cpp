@@ -28,6 +28,20 @@ void NPC::addDialogue(const std::vector<std::string>& lines) {
     }
 }
 
+//Helper function to get player input during dialogue with NPC
+char NPC::getDialogueInput() {
+    std::string input;
+    std::getline(std::cin, input);
+
+    //If player presses enter
+    if (input.empty()) {
+        return '\n';
+    }
+
+    //Otherwise return the first character input by player ('Q' or 'q')
+    return input[0];
+}
+
 //Getters
 std::string NPC::getName() const {
     return name;
@@ -53,23 +67,45 @@ void NPC::talk(Player* player) {
     std::cout << "  " << name << "\n";
     std::cout << "=======================================\n\n";
 
-    //Shows current dialogue line with animation
-    if (currentDialogueLine < dialogue.size()) {
-        TextEffects::typewriter(dialogue[currentDialogueLine], TextSpeed::NORMAL);
-        currentDialogueLine++;
+    //Tracks if this is a new conversation or continuing
+    bool isNewConversation = (currentDialogueLine == 0);
 
-        //Checks if more dialogue is available
-        if (currentDialogueLine >= dialogue.size()) {
-            hasMoreDialogue = false;
+    if (!isNewConversation && currentDialogueLine < dialogue.size()) {
+        std::cout << "(Continuing conversation...)\n\n";
+    }
+
+    //Loop through remaining dialogue lines
+    for (int i = currentDialogueLine; i < dialogue.size(); i++) {
+        //Displays current line
+        TextEffects::typewriter(dialogue[i], TextSpeed::NORMAL);
+        std::cout << "\n";
+
+        //Update progress
+        currentDialogueLine = i + 1;
+
+        //Check if there's more dialogue
+        if (currentDialogueLine < dialogue.size()) {
+            //Show prompt
+            std::cout << "\n> Continue (ENTER) | Exit (Q): ";
+
+            //Get player input
+            char input = getDialogueInput();
+
+            //Check if player wants to exit
+            if (input == 'q' || input == 'Q') {
+                std::cout << "\n(Conversation paused)\n";
+                return;  //Exit function, saves progress
+            }
+
             std::cout << "\n";
-            TextEffects::typewriter("(" + name + " has nothing more to say.)", TextSpeed::FAST);
         }
     }
-    else {
-        TextEffects::typewriter("(" + name + " has nothing more to say.)", TextSpeed::FAST);
-    }
 
-    std::cout << "\n";
+    //All dialogue has been shown
+    hasMoreDialogue = false;
+    std::cout << "\n========================================\n";
+    std::cout << "(" << name << " has nothing more to say.)\n";
+    std::cout << "========================================\n";
 }
 
 //Displays NPC info (when looking around at a location)

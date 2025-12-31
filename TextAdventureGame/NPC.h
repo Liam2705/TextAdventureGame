@@ -30,6 +30,9 @@ public:
     void addDialogue(const std::string& line);
     void addDialogue(const std::vector<std::string>& lines);
 
+    //Helper function for dialogue input
+    char getDialogueInput();
+
     //Getters
     std::string getName() const;
     std::string getDescription() const;
