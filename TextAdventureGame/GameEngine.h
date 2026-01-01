@@ -27,7 +27,7 @@ class GameEngine {
 private:
 	Player* player;
 	bool isRunning;
-	
+	bool shouldClearScreen; //Used to track is screen should clear before menu display
 
 	//Tracks the act
 	int currentAct;
@@ -50,6 +50,8 @@ private:
 	//Helper functions for dynamic menu system
 	std::vector<MenuAction> buildMenuOptions() const;
 	void executeMenuAction(MenuAction action);
+
+	bool shouldClearAfterAction(MenuAction action) const;
 
 	void clearScreen();
 	void waitForEnter();
