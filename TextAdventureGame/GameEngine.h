@@ -10,11 +10,24 @@ class Location;
 class Item;
 class NPC;
 
+enum class MenuAction{
+	LOOK,
+	MOVE,
+	TAKE_ITEM,
+	DROP_ITEM,
+	USE_ITEM,
+	TALK_NPC,
+	INVENTORY,
+	STATUS,
+	HELP,
+	QUIT
+};
 
 class GameEngine {
 private:
 	Player* player;
 	bool isRunning;
+	
 
 	//Tracks the act
 	int currentAct;
@@ -33,6 +46,10 @@ private:
 	void checkActProgression();
 	void triggerAct2();
 	void triggerAct3();
+
+	//Helper functions for dynamic menu system
+	std::vector<MenuAction> buildMenuOptions() const;
+	void executeMenuAction(MenuAction action);
 
 	void clearScreen();
 	void waitForEnter();
