@@ -421,10 +421,15 @@ bool Player::checkLocationAccess(Location* location) {
             std::cout << "You need a SECURITY KEYCARD to enter.\n";
             std::cout << "\nHint: Check the Corporate Warehouse in the\n";
             std::cout << "   Industrial Sector.\n";
+            std::cout << "================================================\n";
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            TextEffects::waitForEnter();
             return false;
         }
 
         //Player has keycard - show success
+        TextEffects::clearScreen();
+
         std::cout << "\n================================================\n";
         std::cout << "         SECURITY CHECKPOINT                     \n";
         std::cout << "================================================\n\n";
@@ -472,16 +477,58 @@ bool Player::checkLocationAccess(Location* location) {
             std::cout << "You need a MILITARY ICE BREAKER to hack through.\n";
             std::cout << "\nHint: Check the Abandoned Factory in the\n";
             std::cout << "   Industrial Sector.\n";
+            std::cout << "================================================\n";
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            TextEffects::waitForEnter();
             return false;
         }
 
         //Player has hacking device - show success
+        TextEffects::clearScreen();
+
         std::cout << "\n================================================\n";
-        std::cout << "            ENCRYPTION BYPASSED                  \n";
-        std::cout << "================================================\n";
-        std::cout << "\nYou deploy the military ICE breaker.\n";
-        std::cout << "Code cascades. Firewalls crumble.\n";
-        std::cout << "The server room door slides open.\n";
+        std::cout << "         SECURITY ENCRYPTION DETECTED            \n";
+        std::cout << "================================================\n\n";
+
+        TextEffects::typewriter("The server room entrance: a reinforced door with", TextSpeed::NORMAL);
+        std::cout << "\n";
+        TextEffects::typewriter("a glowing keypad. Military-grade encryption.", TextSpeed::NORMAL);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::cout << "\n\n";
+
+        TextEffects::typewriter("You pull out the Military ICE Breaker.", TextSpeed::NORMAL);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::cout << "\n";
+        TextEffects::typewriter("Time to see if this hardware is worth the hype.", TextSpeed::NORMAL);
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::cout << "\n\n";
+
+        std::cout << "[INITIATING INTRUSION COUNTERMEASURE ELECTRONICS]\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+
+        std::cout << "[ANALYZING ENCRYPTION...]\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(800));
+
+        std::cout << "[BYPASS ALGORITHMS DEPLOYED]\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(700));
+
+        std::cout << "\n";
+        TextEffects::typewriter("Code cascades across your display.", TextSpeed::FAST);
+        std::cout << "\n";
+        TextEffects::typewriter("Firewalls crumble. Encryption layers peel away.", TextSpeed::FAST);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::cout << "\n\n";
+
+        std::cout << "[ACCESS GRANTED]\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::cout << "\n";
+
+        TextEffects::typewriter("The door slides open with a hiss.", TextSpeed::NORMAL);
+        std::cout << "\n";
+        TextEffects::typewriter("Cold air rushes out. You're in.", TextSpeed::SLOW);
+
+        std::cout << "\n\n================================================\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
     }
 
     // Access granted

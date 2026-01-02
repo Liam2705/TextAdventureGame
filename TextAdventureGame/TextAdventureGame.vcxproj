@@ -132,24 +132,30 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="HackingTool.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemBuilder.cpp" />
     <ClCompile Include="Keycard.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="NPCBuilder.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Stimpack.cpp" />
     <ClCompile Include="TextEffects.cpp" />
+    <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="HackingTool.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemBuilder.h" />
     <ClInclude Include="Keycard.h" />
     <ClInclude Include="Location.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="NPCBuilder.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Stimpack.h" />
     <ClInclude Include="TextEffects.h" />
+    <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

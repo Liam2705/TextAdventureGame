@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include "WorldBuilder.h" 
+#include "ItemBuilder.h"    
+#include "NPCBuilder.h"
 
 //Forward Declarations
 class Player;

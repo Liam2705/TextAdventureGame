@@ -40,6 +40,9 @@
     <Filter Include="Header Files\world">
       <UniqueIdentifier>{33158b37-e73e-4ceb-b155-b795c0f6bbdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{c321270b-8336-4583-8b4c-15f9a3e83c9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,11 +69,20 @@
     <ClCompile Include="Keycard.cpp">
       <Filter>Source Files\items</Filter>
     </ClCompile>
-    <ClCompile Include="TextEffects.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="NPC.cpp">
       <Filter>Source Files\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="TextEffects.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldBuilder.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBuilder.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCBuilder.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +107,20 @@
     <ClInclude Include="Keycard.h">
       <Filter>Header Files\items</Filter>
     </ClInclude>
-    <ClInclude Include="TextEffects.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="NPC.h">
       <Filter>Header Files\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEffects.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBuilder.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCBuilder.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

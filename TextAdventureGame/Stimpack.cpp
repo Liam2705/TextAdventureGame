@@ -1,5 +1,6 @@
 #include "Stimpack.h"
 #include "Player.h"
+#include "TextEffects.h"
 #include <iostream>
 
 Stimpack::Stimpack(const std::string itemName,
@@ -22,8 +23,29 @@ bool Stimpack::use(Player* player, Location* location) {
         return false;  //Don't consume the item
     }
 
-    std::cout << "\nYou inject the neural stimpack.\n";
-    std::cout << "Chemicals flood your system, accelerating cellular repair.\n";
+    std::cout << "\n================================================\n";
+    std::cout << "         NEURAL STIMPACK ACTIVATED               \n";
+    std::cout << "================================================\n\n";
+
+    TextEffects::typewriter("You press the stimpack against your neck.", TextSpeed::NORMAL);
+    std::this_thread::sleep_for(std::chrono::milliseconds(400));
+    std::cout << "\n";
+
+    TextEffects::typewriter("HISS. The injection is instant.", TextSpeed::FAST);
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::cout << "\n\n";
+
+    TextEffects::typewriter("Nanobots flood your bloodstream, accelerating", TextSpeed::NORMAL);
+    std::cout << "\n";
+    TextEffects::typewriter("cellular repair at the molecular level.", TextSpeed::NORMAL);
+    std::this_thread::sleep_for(std::chrono::milliseconds(600));
+    std::cout << "\n\n";
+
+    TextEffects::typewriter("Pain fades. Wounds knit together.", TextSpeed::NORMAL);
+    std::cout << "\n\n";
+
+    std::cout << "================================================\n";
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
     player->heal(healAmount);
 
