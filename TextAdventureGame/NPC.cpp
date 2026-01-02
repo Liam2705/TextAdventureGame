@@ -106,6 +106,10 @@ void NPC::talk(Player* player) {
     std::cout << "\n========================================\n";
     std::cout << "(" << name << " has nothing more to say.)\n";
     std::cout << "========================================\n";
+
+    //Reset dialogue for next conversation (Loops dialogue)
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    resetDialogue();  //Starts dialogue from beginning
 }
 
 //Displays NPC info (when looking around at a location)

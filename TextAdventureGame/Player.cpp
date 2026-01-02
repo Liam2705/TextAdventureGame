@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "Location.h"
 #include "Item.h"
+#include "TextEffects.h"
 #include <iostream>
 
 const int INITIAL_INVENTORY_CAPACITY = 10;
@@ -425,11 +426,38 @@ bool Player::checkLocationAccess(Location* location) {
 
         //Player has keycard - show success
         std::cout << "\n================================================\n";
-        std::cout << "           ACCESS GRANTED                       \n";
-        std::cout << "================================================\n";
-        std::cout << "\nYou flash the security keycard.\n";
-        std::cout << "The scanner beeps. Green light.\n";
-        std::cout << "The guards nod and wave you through.\n";
+        std::cout << "         SECURITY CHECKPOINT                     \n";
+        std::cout << "================================================\n\n";
+
+        TextEffects::typewriter("You approach the checkpoint.", TextSpeed::NORMAL);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::cout << "\n";
+
+        TextEffects::typewriter("Guards in black tactical gear watch your every move.", TextSpeed::NORMAL);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::cout << "\n\n";
+
+        TextEffects::typewriter("You produce the security keycard from your jacket...", TextSpeed::NORMAL);
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
+        std::cout << "\n\n";
+
+        std::cout << "[SCANNING...]\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(800));
+
+        std::cout << "\n";
+        TextEffects::typewriter("BEEP. Green light.", TextSpeed::FAST);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        std::cout << "\n\n";
+
+        TextEffects::typewriter("'Access granted. Welcome, Executive.'", TextSpeed::NORMAL);
+        std::cout << "\n\n";
+
+        TextEffects::typewriter("The reinforced barriers retract with a pneumatic hiss.", TextSpeed::NORMAL);
+        std::cout << "\n";
+        TextEffects::typewriter("The guards step aside. You're in.", TextSpeed::NORMAL);
+
+        std::cout << "\n\n================================================\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
     }
 
     //GATE 2: Server Room requires hacking device
