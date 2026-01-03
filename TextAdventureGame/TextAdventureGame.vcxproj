@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Act3Manager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="HackingTool.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Act3Manager.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="HackingTool.h" />
     <ClInclude Include="Item.h" />

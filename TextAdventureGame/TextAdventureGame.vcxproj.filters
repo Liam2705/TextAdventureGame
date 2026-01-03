@@ -84,6 +84,9 @@
     <ClCompile Include="NPCBuilder.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="Act3Manager.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="NPCBuilder.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="Act3Manager.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
