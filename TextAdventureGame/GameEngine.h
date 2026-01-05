@@ -12,6 +12,7 @@ class Player;
 class Location;
 class Item;
 class NPC;
+class Act3Manager;
 
 enum class MenuAction{
 	LOOK,
@@ -23,7 +24,8 @@ enum class MenuAction{
 	INVENTORY,
 	STATUS,
 	HELP,
-	QUIT
+	QUIT,
+	ENTER_APARTMENT
 };
 
 class GameEngine {
@@ -36,6 +38,9 @@ private:
 	int currentAct;
 	bool act2Triggered;
 	bool act3Triggered;
+
+	//Manages Act 3 Specifically
+	Act3Manager* act3Manager;
 
 	//Storing pointers for all game locations to help with memory management and cleanup
 	std::vector<Location*> allLocations;
@@ -70,6 +75,7 @@ private:
 	void handleStatus();
 	void handleHelp();
 	void handleQuit();
+	void handleEnterApartment();
 
 	//Get player input
 	int getPlayerChoice(int min, int max);

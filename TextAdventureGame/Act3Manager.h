@@ -23,7 +23,7 @@ private:
     GameEngine* gameEngine;
 
     //Chase sequence
-    void runChaseSequence(Player* player);
+    
     void chaseStage1_ServerRoom();
     void chaseStage2_Lobby();
     void chaseStage3_PlazaEntrance();
@@ -63,6 +63,9 @@ public:
     void startAct3();
     bool isAct3Active() const;
     bool isChaseComplete() const;
+    
+    //Chase sequence
+    void runChaseSequence(Player* player);
 
     //Called when player enters apartment during Act 3
     void startFinaleSequence(Player* player);
