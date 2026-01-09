@@ -13,78 +13,26 @@ Player::Player(const std::string & playerName, Location * startingLocation)
     : name(playerName),
     health(STARTING_HEALTH),
     maxHealth(STARTING_HEALTH),
-    inventoryCount(0),
-    inventoryCapacity(INITIAL_INVENTORY_CAPACITY),
     currentLocation(startingLocation) {
 
-    //Allocate inventory array
-    inventory = new Item * [inventoryCapacity];
-
-    //Initialise items to nullptr
-    for (int i = 0; i < inventoryCapacity; i++) {
-        inventory[i] = nullptr;
-    }
+    inventory.reserve(INITIAL_INVENTORY_CAPACITY);
 
     std::cout << "Player CREATED: " << name
-        << " (inventory capacity: " << inventoryCapacity << ")\n";
+        << " (inventory capacity: " << INITIAL_INVENTORY_CAPACITY << ")\n";
 }
 
 //Destructor
 Player::~Player() {
     std::cout << "Player DESTROYED: " << name << "\n";
 
-    //Delete the array of pointers (doesn't include the items)
-    delete[] inventory;
-}
-
-//Remove from Inventory (helper function)
-void Player::removeFromInventoryArray(int index) {
-    //Bounds check
-    if (index < 0 || index >= inventoryCount) {
-        return;
-    }
-
-    //Shift remaining items down to fill the gap
-    for (int i = index; i < inventoryCount - 1; i++) {
-        inventory[i] = inventory[i + 1];
-    }
-
-    //Clear the last slot and decrease the count
-    inventory[inventoryCount - 1] = nullptr;
-    inventoryCount--;
-}
-
-//Resize Inventory
-void Player::resizeInventory() {
-    std::cout << "Resizing inventory from " << inventoryCapacity;
-
-    int newCapacity = inventoryCapacity * 2;
-    std::cout << " to " << newCapacity << "\n";
-
-    Item** newInventory = new Item * [newCapacity];
-
-    //Copy existing pointers
-    for (int i = 0; i < inventoryCount; i++) {
-        newInventory[i] = inventory[i];
-    }
-
-    //Initialise new slots as null pointers
-    for (int i = inventoryCount; i < newCapacity; i++) {
-        newInventory[i] = nullptr;
-    }
-
-    //Delete old array and update
-    delete[] inventory;
-    inventory = newInventory;
-    inventoryCapacity = newCapacity;
 }
 
 //Getters
 std::string Player::getName() const { return name; }
 Location* Player::getCurrentLocation() const { return currentLocation; }
 
-int Player::getInventoryCount() const { return inventoryCount; }
-int Player::getInventoryCapacity() const { return inventoryCapacity; }
+int Player::getInventoryCount() const { return inventory.size(); }
+int Player::getInventoryCapacity() const { return inventory.capacity(); }
 
 int Player::getHealth() const { return health; }
 int Player::getMaxHealth() const { return maxHealth; }
@@ -244,12 +192,6 @@ bool Player::pickUpItem(int locationItemIndex) {
         return false;
     }
 
-    //Resizing inventory if full (temp feature)
-    if (inventoryCount >= inventoryCapacity)
-    {
-        resizeInventory();
-    }
-
     //Removing the item from the location and returns a pointer to that item
     Item* item = currentLocation->removeItem(locationItemIndex);
 
@@ -260,8 +202,7 @@ bool Player::pickUpItem(int locationItemIndex) {
     }
 
     //Add to player inventory
-    inventory[inventoryCount] = item;
-    inventoryCount++;
+    inventory.push_back(item);
 
     std::cout << "You picked up " << item->getName() << "\n";
     return true;
@@ -269,14 +210,14 @@ bool Player::pickUpItem(int locationItemIndex) {
 
 bool Player::dropItem(int inventoryIndex) {
 
-    if (inventoryCount == 0)
+    if (inventory.empty())
     {
         std::cout << "Your inventory is empty.\n";
         return false;
     }
 
     //Bounds check
-    if (inventoryIndex < 0 || inventoryIndex >= inventoryCapacity)
+    if (inventoryIndex < 0 || inventoryIndex >= inventory.size())
     {
         std::cout << "Invalid inventory slot.\n";
         return false;
@@ -291,7 +232,7 @@ bool Player::dropItem(int inventoryIndex) {
     }
 
     //Remove from inventory
-    removeFromInventoryArray(inventoryIndex);
+    inventory.erase(inventory.begin() + inventoryIndex);
     //Add to current location
     currentLocation->addItem(item);
 
@@ -301,10 +242,10 @@ bool Player::dropItem(int inventoryIndex) {
 
 //Access an item without removing or modifying it
 Item* Player::getInventoryItem(int index) const {
-    if (index < 0 || index >= inventoryCount) {
+    if (index < 0 || index >= inventory.size()) {
         return nullptr;
     }
-    return inventory[index];
+    return inventory.at(index);
 }
 
 //Displays the current location
@@ -318,18 +259,18 @@ void Player::showInventory() const {
     std::cout << "  INVENTORY\n";
     std::cout << "========================================\n";
 
-    if (inventoryCount == 0) {
+    if (inventory.empty()) {
         std::cout << "You aren't carrying anything.\n";
     }
     else {
         std::cout << "You are carrying:\n";
-        for (int i = 0; i < inventoryCount; i++) {
+        for (int i = 0; i < inventory.size(); i++) {
             std::cout << "  [" << i << "] ";
             inventory[i]->display();
         }
     }
 
-    std::cout << "\nCapacity: " << inventoryCount << "/" << inventoryCapacity << "\n";
+    std::cout << "\nCapacity: " << inventory.size() << "/" << inventory.capacity() << "\n";
     std::cout << "========================================\n";
 }
 
@@ -354,13 +295,13 @@ void Player::showStatus() const {
         std::cout << " FULL";
     }
 
-    std::cout << "\nItems carried: " << inventoryCount << "/" << inventoryCapacity << "\n";
+    std::cout << "\nItems carried: " << inventory.size() << "/" << inventory.capacity() << "\n";
     std::cout << "========================================\n";
 }
 
 //Use an item from inventory
 bool Player::useItem(int inventoryIndex) {
-    if (inventoryIndex < 0 || inventoryIndex >= inventoryCount) {
+    if (inventoryIndex < 0 || inventoryIndex >= inventory.size()) {
         std::cout << "\nInvalid inventory slot.\n";
         return false;
     }
@@ -385,7 +326,7 @@ bool Player::useItem(int inventoryIndex) {
     if (consumed) {
         std::cout << item->getName() << " was consumed.\n";
         delete item;  // Free the item's memory
-        removeFromInventoryArray(inventoryIndex);
+        inventory.erase(inventory.begin() + inventoryIndex);
     }
 
     return true;
@@ -393,7 +334,7 @@ bool Player::useItem(int inventoryIndex) {
 
 //Check if the player has a specific item
 bool Player::hasItem(const std::string& itemName) const {
-    for (int i = 0; i < inventoryCount; i++) {
+    for (int i = 0; i < inventory.size(); i++) {
         if (inventory[i]->getName() == itemName) {
             return true;
         }

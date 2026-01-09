@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <string>
+#include <vector>
 
 //Forward declarations
 class Location;
@@ -14,15 +15,11 @@ private:
     int health;
     int maxHealth;
 
-    Item** inventory;       
-    int inventoryCount;     
-    int inventoryCapacity;  
+    std::vector<Item*> inventory;
 
     Location* currentLocation;  
 
-    //Helper functions for inventory management
-    void resizeInventory();
-    void removeFromInventoryArray(int index);
+
     bool checkLocationAccess(Location* location);
 
 public:
