@@ -3,6 +3,15 @@
 A cyberpunk-themed text adventure game written in C++ where players take the role of a Runner completing a corporate data heist across three acts. 
 Navigate a dystopian city, collect items, interact with NPCs, and make choices to progress through the story.
 
+### Act 1 Title Screen
+<img width="571" height="307" alt="Act 1 title screen" src="https://github.com/user-attachments/assets/03d3bccc-6c73-4848-9d0a-9aeb6b8e0903" />
+
+### Movement Between Locations
+<img width="500" height="800" alt="Moving between locations" src="https://github.com/user-attachments/assets/009dddbb-9e84-471e-b158-c050d87c6c5d" />
+
+### Item Usage
+<img width="500" height="800" alt="Using a stimpack" src="https://github.com/user-attachments/assets/25d47a41-f4ec-46cb-9b1c-63bc83e796da" />
+
 ## ✅ Features
 - Three-act narrative structure with multiple connected locations.
 - Player character with health, inventory, and movement system.
